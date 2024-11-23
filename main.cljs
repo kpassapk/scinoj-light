@@ -9,12 +9,11 @@
   [ev]
   (js/console.log ev)
   (let [k (aget ev "keyCode")]
-    (case k
-      37
+    (cond
+      (contains? #{37} k)
       (swap! state update :slide dec)
-      39
-      (swap! state update :slide inc)
-      nil)))
+      (contains? #{39} k)
+      (swap! state update :slide inc))))
 
 (defn app []
   [:<>
@@ -32,7 +31,7 @@
      [:h1 "Orange Site Question"]
      [:img {:src "hn.png"}]]
     [:section
-     [:h1 "What's LISP?"]
+     [:h1 "What is LISP?"]
      [:h2
       [:p [:code "."]]]]
     [:section
@@ -46,17 +45,21 @@
     [:section
      [:h1 "What is LISP?"]
      [:h2
-      [:p "Very simple to implement"]]]
+      [:p "The code is data (AST)"]]]
+    [:section
+     [:h1 "What is LISP?"]
+     [:h2
+      [:p "Very simple to implement."]]]
     [:section
      [:h1 "What's the point of LISP?"]
      [:h2
-      [:p "Four features"]]]
+      [:p "Four features."]]]
     [:section
      [:h1 "1. Faster editing & refactoring"]
      [:h2
-      [:p "Your editor understands the language"]]]
+      [:p "Your editor understands the language."]]]
     [:section
-     [:h1 "2. Less syntax to remember"]
+     [:h1 "2. Less syntax to remember."]
      [:h2
       [:p "Con: so many brackets!"]
       [:p "Pro: so many brackets!"]]]
@@ -72,6 +75,12 @@
      [:h1 "3. nREPL (fast iteration)"]
      [:img {:src "cider-debug.gif"
             :style {:width "80vw"}}]]
+    [:section
+     [:h1 "4. Metaprogramming"]
+     [:p "Macros. Code that modifies the code."]]
+    [:section
+     [:h1 "4. Metaprogramming"]
+     [:p "Add new language features."]]
     [:section
      [:h1 "4. Metaprogramming"]
      [:p "I am glad the big brained have access to this."]]

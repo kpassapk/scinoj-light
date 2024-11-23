@@ -5,19 +5,21 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-size: 2em;
 }
 
 img {
-  max-width: 1200px;
+  max-height: 70vh;
 }
 
 main {
   text-align: center;
-  padding: 2em;
+  padding: 0 2em;
 }
 
 ul li {
   text-align: left;
+  line-height: 1.5em;
 }
 
 section {
