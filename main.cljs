@@ -5,23 +5,30 @@
 
 (defonce state (r/atom nil))
 
+(defn get-slide-count []
+  (aget
+    (js/document.querySelectorAll "section")
+    "length"))
+
 (defn keydown
   [ev]
   (js/console.log ev)
   (let [k (aget ev "keyCode")]
     (cond
-      (contains? #{37} k)
+      (contains? #{37 38 33} k)
       (swap! state update :slide dec)
-      (contains? #{39} k)
-      (swap! state update :slide inc))))
+      (contains? #{39 40 32 13 34} k)
+      (swap! state update :slide inc)
+      (contains? #{27 72 36} k)
+      (swap! state assoc :slide 0)
+      (contains? #{35} k)
+      (swap! state assoc :slide (dec (get-slide-count))))))
 
 (defn app []
   [:<>
    [:style (str "section:nth-child("
                 (inc (mod (:slide @state)
-                          (aget
-                            (js/document.querySelectorAll "section")
-                            "length")))
+                          (get-slide-count)))
                 ") { display: block; }")]
    [:main
     [:section
