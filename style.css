@@ -37,3 +37,9 @@ ul li {
 section {
   display: none;
 }
+
+footer {
+  position: fixed;
+  bottom: 0;
+  padding: 1em 0;
+}
