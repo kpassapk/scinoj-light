@@ -29,7 +29,7 @@ Each slide is a `:section` tag like this:
      ; ...
 ```
 
-# keys
+# navigation
 
 Slide navigation keys:
 
@@ -37,6 +37,8 @@ Slide navigation keys:
 - Prev: LeftArrow, UpArrow, PageUp
 - First: Home, Escape, Q
 - Last: End
+
+Or tap/click the right/left side of the screen to go foward/backward.
 
 # features
 
