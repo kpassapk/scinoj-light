@@ -14,7 +14,6 @@
 
 (defn keydown
   [ev]
-  (js/console.log ev)
   (let [k (aget ev "keyCode")]
     (cond
       (contains? #{37 38 33} k)
@@ -28,11 +27,12 @@
 
 (defn tap
   [ev]
-  (let [x (aget ev "clientX")
-        w (aget js/window "innerWidth")]
-    (if (< x (/ w 2))
-      (swap! state update :slide dec)
-      (swap! state update :slide inc))))
+  (when (= (aget ev "target") (aget js/document "body"))
+    (let [x (aget ev "clientX")
+          w (aget js/window "innerWidth")]
+      (if (< x (/ w 2))
+        (swap! state update :slide dec)
+        (swap! state update :slide inc)))))
 
 (defn component:show-slide [state]
   [:style (str "section:nth-child("
