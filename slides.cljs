@@ -40,7 +40,7 @@
                          (get-slide-count)))
                ") { display: block; }")])
 
-(defn app [state]
+(defn slides [state]
   [:<>
    [:main
 
@@ -68,7 +68,7 @@
 
     [component:show-slide state]]])
 
-(rdom/render [app state] (.getElementById js/document "app"))
+(rdom/render [slides state] (.getElementById js/document "app"))
 (defonce keylistener (aset js/window "onkeydown" #(keydown %)))
 (defonce taplistener (aset js/window "onpointerdown" #(tap %)))
 ; trigger a second render so we get the sections count
