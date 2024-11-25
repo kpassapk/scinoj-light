@@ -70,6 +70,6 @@
 
 (rdom/render [slides state] (.getElementById js/document "app"))
 (defonce keylistener (aset js/window "onkeydown" #(keydown %)))
-(defonce taplistener (aset js/window "onpointerdown" #(tap %)))
+(defonce taplistener (aset js/window "onclick" #(tap %)))
 ; trigger a second render so we get the sections count
 (swap! state assoc :slide 0)
