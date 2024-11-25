@@ -3,7 +3,33 @@
     [reagent.core :as r]
     [reagent.dom :as rdom]))
 
-; edit your slides with hiccup below 👇️
+(defn slides []
+  [:<>
+   [:main
+
+    ; your slides start here
+    ; each slide is a :section
+    ; you can add whatever hiccup you like
+
+    [:section
+     [:h1 "Hello"]
+     [:h2 "Your first slide."]
+     [:footer
+      [:small
+       [:a {:href "https://github.com/chr15m/scittle-tiny-slides"}
+        "Made with Scittle Tiny Slides"]]]]
+
+    [:section
+     [:h1 "Slide Two"]
+     [:img {:src "https://w.wiki/CAvg"}]
+     [:h3 "It's the moon."]]
+
+    [:section
+     [:h1 "Slide Three"]
+     [:h2
+      [:p [:code "Thank you for watching."]]]]]])
+
+; *** implementation details *** ;
 
 (defonce state (r/atom nil))
 
@@ -39,32 +65,6 @@
                (inc (mod (:slide @state)
                          (get-slide-count)))
                ") { display: block; }")])
-
-(defn slides []
-  [:<>
-   [:main
-
-    ; your slides start here
-    ; each slide is a :section
-    ; you can add whatever hiccup you like
-
-    [:section
-     [:h1 "Hello"]
-     [:h2 "Your first slide."]
-     [:footer
-      [:small
-       [:a {:href "https://github.com/chr15m/scittle-tiny-slides"}
-        "Made with Scittle Tiny Slides"]]]]
-
-    [:section
-     [:h1 "Slide Two"]
-     [:img {:src "https://w.wiki/CAvg"}]
-     [:h3 "It's the moon."]]
-
-    [:section
-     [:h1 "Slide Three"]
-     [:h2
-      [:p [:code "Thank you for watching."]]]]]])
 
 (rdom/render [:<> [slides] [component:show-slide state]]
              (.getElementById js/document "app"))
