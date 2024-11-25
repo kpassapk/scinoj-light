@@ -26,6 +26,14 @@
       (contains? #{35} k)
       (swap! state assoc :slide (dec (get-slide-count))))))
 
+(defn tap
+  [ev]
+  (let [x (aget ev "clientX")
+        w (aget js/window "innerWidth")]
+    (if (< x (/ w 2))
+      (swap! state update :slide dec)
+      (swap! state update :slide inc))))
+
 (defn component:show-slide [state]
   [:style (str "section:nth-child("
                (inc (mod (:slide @state)
@@ -62,5 +70,6 @@
 
 (rdom/render [app state] (.getElementById js/document "app"))
 (defonce keylistener (aset js/window "onkeydown" #(keydown %)))
+(defonce taplistener (aset js/window "onpointerdown" #(tap %)))
 ; trigger a second render so we get the sections count
 (swap! state assoc :slide 0)
