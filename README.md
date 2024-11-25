@@ -2,8 +2,11 @@ Minimalist slides for Scittle ClojureScript.
 
 # quickstart
 
-* Clone this repository
-* [Start the dev server](#dev) visit <https://localhost:8000> and then edit [`slides.cljs`](./slides.cljs).
+- Clone this repository
+- Edit [`slides.cljs`](./slides.cljs) and add your slides.
+- Open [`index.html`](./index.html) in your browser.
+
+To get a live-reloading dev experience you can [Start a `josh` server](#dev).
 
 # keys
 
@@ -29,6 +32,8 @@ echo {} > package.json
 npm i cljs-josh
 npx josh
 ```
+
+(Or just `josh` if you have done `npm i -g cljs-josh` to install it globally).
 
 # about
 
