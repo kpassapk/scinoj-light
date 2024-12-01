@@ -5,94 +5,89 @@
 
 (defn slides []
   [:<>
-   [:main
+   ; your slides start here
+   ; each slide is a :section
+   ; you can add whatever hiccup you like
 
-    ; your slides start here
-    ; each slide is a :section
-    ; you can add whatever hiccup you like
+   [:section
+    [:h1 "Hello"]
+    [:h2 "Your first slide."]
+    [:input]
+    [:footer
+     [:small
+      [:a {:href "https://github.com/chr15m/scittle-tiny-slides"
+           :target "_BLANK"}
+       "Made with Scittle Tiny Slides bla bla bla bla bla bla bla bla"]]]]
 
-    [:section
-     [:h1 "Hello"]
-     [:h2 "Your first slide."]
-     [:footer
-      [:small
-       [:a {:href "https://github.com/chr15m/scittle-tiny-slides"}
-        "Made with Scittle Tiny Slides"]]]]
+   [:section
+    [:h1 "Slide Two"]
+    [:img {:src "https://w.wiki/CAvg"}]
+    [:h3 "It's the moon."]]
 
-    [:section
-     [:h1 "Slide Two"]
-     [:img {:src "https://w.wiki/CAvg"}]
-     [:h3 "It's the moon."]]
-
-    [:section
-     [:h1 "Slide Three"]
-     [:h2
-      [:p [:code "Thank you for watching."]]]]]])
+   [:section
+    [:h1 "Slide Three"]
+    [:h2
+     [:p [:code "Thank you for watching."]]]]])
 
 ; *** implementation details *** ;
 
-(defonce state (r/atom nil))
-
-(defn elem-by-id [id]
-  (.getElementById js/document id))
+(defonce state (r/atom nil)) ; re-initialized below
 
 (defn get-slide-count []
   (aget
     (js/document.querySelectorAll "section")
     "length"))
 
-(defn display-none! []
-  (swap! state assoc :touch-ui-display "none"))
+(defn move-slide! [state ev dir-fn]
+  (.preventDefault ev)
+  (swap! state update :slide dir-fn))
 
-(defn display-block! []
-  (swap! state assoc :touch-ui-display "block"))
-
-(defn valid-tap-target? [ev]
-  (or (= (aget ev "target") (aget js/document "body"))
-      (= (aget ev "target") (elem-by-id "inc"))
-      (= (aget ev "target") (elem-by-id "dec"))))
+(defn clickable? [ev]
+  (let [tag-name (.toLowerCase (aget ev "target" "tagName"))]
+    (contains? #{"button" "label" "select"
+                 "textarea" "input" "a"
+                 "details" "summary"}
+               tag-name)))
 
 (defn keydown
   [ev]
-  (display-none!) 
-  (let [k (aget ev "keyCode")]
-    (cond
-      (contains? #{37 38 33} k)
-      (swap! state update :slide dec)
-      (contains? #{39 40 32 13 34} k)
-      (swap! state update :slide inc)
-      (contains? #{27 72 36} k)
-      (swap! state assoc :slide 0)
-      (contains? #{35} k)
-      (swap! state assoc :slide (dec (get-slide-count))))))
-
-(defn tap
-  [ev]
-  (display-none!)
-  (cond (valid-tap-target? ev)
-    (let [x (aget ev "clientX")
-          w (aget js/window "innerWidth")]
-      (if (< x (/ w 2))
-        (swap! state update :slide dec)
-        (swap! state update :slide inc)))
-    :else (display-block!)))
+  (when (not (clickable? ev))
+    (let [k (aget ev "keyCode")]
+      (cond
+        (contains? #{37 38 33} k)
+        (move-slide! state ev dec)
+        (contains? #{39 40 32 13 34} k)
+        (move-slide! state ev inc)
+        (contains? #{27 72 36} k)
+        (swap! state assoc :slide 0)
+        (contains? #{35} k)
+        (swap! state assoc :slide (dec (get-slide-count)))))))
 
 (defn component:show-slide [state]
   [:style (str "section:nth-child("
                (inc (mod (:slide @state) (get-slide-count)))
                ") { display: block; }")])
 
-(defn component:touch-ui []
-  (let [display (:touch-ui-display @state) ]
-    [:div {:id "touch-ui" :style {:display display}}
-     [:div {:id "dec"} "<"]
-     [:div {:id "inc"} ">"]]))
+(defn component:touch-ui [state]
+  [:div#touch-ui
+   {:style {:opacity
+            (if (:touch-ui @state) 0 1)}}
+   [:div {:on-click #(move-slide! state % dec)} "⟪"]
+   [:div {:on-click #(move-slide! state % inc)} "⟫"]])
 
-(rdom/render [:<> [slides] 
-              [component:show-slide state]
-              [component:touch-ui state]]
-             (.getElementById js/document "app"))
+(defn component:slide-viewer [state]
+  [:<>
+   [:main {:on-click
+           #(when (not (clickable? %))
+              (js/console.log (aget % "detail"))
+              (swap! state update :touch-ui not))}
+    [slides]]
+   [component:show-slide state]
+   [component:touch-ui state]])
+
+(rdom/render
+  [component:slide-viewer state]
+  (.getElementById js/document "app"))
 (defonce keylistener (aset js/window "onkeydown" #(keydown %)))
-(defonce taplistener (aset js/document "onclick" #(tap %)))
 ; trigger a second render so we get the sections count
-(swap! state assoc :slide 0 :touch-ui-display "none")
+(swap! state assoc :slide 0 :touch-ui true)
