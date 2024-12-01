@@ -12,7 +12,6 @@
    [:section
     [:h1 "Hello"]
     [:h2 "Your first slide."]
-    [:input]
     [:footer
      [:small
       [:a {:href "https://github.com/chr15m/scittle-tiny-slides"
