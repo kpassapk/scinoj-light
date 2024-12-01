@@ -51,15 +51,15 @@
 (defn keydown
   [ev]
   (when (not (clickable? ev))
-    (let [k (aget ev "keyCode")]
+    (let [k (aget ev "key")]
       (cond
-        (contains? #{37 38 33} k)
+        (contains? #{"ArrowLeft" "ArrowUp" "PageUp"} k)
         (move-slide! state ev dec)
-        (contains? #{39 40 32 13 34} k)
+        (contains? #{"ArrowRight" "ArrowDown" "PageDown" "Enter" " "} k)
         (move-slide! state ev inc)
-        (contains? #{27 72 36} k)
+        (contains? #{"Escape" "Home" "h"} k)
         (swap! state assoc :slide 0)
-        (contains? #{35} k)
+        (contains? #{"End"} k)
         (swap! state assoc :slide (dec (get-slide-count)))))))
 
 (defn component:show-slide [state]
