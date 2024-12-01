@@ -33,13 +33,28 @@
 
 (defonce state (r/atom nil))
 
+(defn elem-by-id [id]
+  (.getElementById js/document id))
+
 (defn get-slide-count []
   (aget
     (js/document.querySelectorAll "section")
     "length"))
 
+(defn display-none! []
+  (swap! state assoc :touch-ui-display "none"))
+
+(defn display-block! []
+  (swap! state assoc :touch-ui-display "block"))
+
+(defn valid-tap-target? [ev]
+  (or (= (aget ev "target") (aget js/document "body"))
+      (= (aget ev "target") (elem-by-id "inc"))
+      (= (aget ev "target") (elem-by-id "dec"))))
+
 (defn keydown
   [ev]
+  (display-none!) 
   (let [k (aget ev "keyCode")]
     (cond
       (contains? #{37 38 33} k)
@@ -53,22 +68,31 @@
 
 (defn tap
   [ev]
-  (when (= (aget ev "target") (aget js/document "body"))
+  (display-none!)
+  (cond (valid-tap-target? ev)
     (let [x (aget ev "clientX")
           w (aget js/window "innerWidth")]
       (if (< x (/ w 2))
         (swap! state update :slide dec)
-        (swap! state update :slide inc)))))
+        (swap! state update :slide inc)))
+    :else (display-block!)))
 
 (defn component:show-slide [state]
   [:style (str "section:nth-child("
-               (inc (mod (:slide @state)
-                         (get-slide-count)))
+               (inc (mod (:slide @state) (get-slide-count)))
                ") { display: block; }")])
 
-(rdom/render [:<> [slides] [component:show-slide state]]
+(defn component:touch-ui []
+  (let [display (:touch-ui-display @state) ]
+    [:div {:id "touch-ui" :style {:display display}}
+     [:div {:id "dec"} "<"]
+     [:div {:id "inc"} ">"]]))
+
+(rdom/render [:<> [slides] 
+              [component:show-slide state]
+              [component:touch-ui state]]
              (.getElementById js/document "app"))
 (defonce keylistener (aset js/window "onkeydown" #(keydown %)))
-(defonce taplistener (aset js/window "onclick" #(tap %)))
+(defonce taplistener (aset js/document "onclick" #(tap %)))
 ; trigger a second render so we get the sections count
-(swap! state assoc :slide 0)
+(swap! state assoc :slide 0 :touch-ui-display "none")
