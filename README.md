@@ -15,18 +15,16 @@ Each slide is a `:section` tag like this:
 ```clojure
 (defn slides [state]
   [:<>
-   [:main
+   [:section
+    [:h1 "Hello"]
+    [:h2 "Your first slide."]]
 
-    [:section
-     [:h1 "Hello"]
-     [:h2 "Your first slide."]]
+   [:section
+    [:h1 "Slide Two"]
+    [:img {:src "https://w.wiki/CAvg"}]
+    [:h3 "It's the moon."]]
 
-    [:section
-     [:h1 "Slide Two"]
-     [:img {:src "https://w.wiki/CAvg"}]
-     [:h3 "It's the moon."]]
-
-     ; ...
+    ; ...
 ```
 
 # navigation
