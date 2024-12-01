@@ -16,7 +16,7 @@
      [:small
       [:a {:href "https://github.com/chr15m/scittle-tiny-slides"
            :target "_BLANK"}
-       "Made with Scittle Tiny Slides bla bla bla bla bla bla bla bla"]]]]
+       "Made with Scittle Tiny Slides"]]]]
 
    [:section
     [:h1 "Slide Two"]
