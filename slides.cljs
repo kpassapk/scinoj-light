@@ -78,7 +78,6 @@
   [:<>
    [:main {:on-click
            #(when (not (clickable? %))
-              (js/console.log (aget % "detail"))
               (swap! state update :touch-ui not))}
     [slides]]
    [component:show-slide state]
