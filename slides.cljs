@@ -86,6 +86,9 @@
 (rdom/render
   [component:slide-viewer state]
   (.getElementById js/document "app"))
-(defonce keylistener (aset js/window "onkeydown" #(keydown %)))
-; trigger a second render so we get the sections count
-(swap! state assoc :slide 0 :touch-ui true)
+
+(defonce setup
+  (do
+    (aset js/window "onkeydown" #(keydown %))
+    ; trigger a second render so we get the sections count
+    (swap! state assoc :slide 0 :touch-ui true)))
