@@ -1,4 +1,4 @@
-Minimal presentations slides for ClojureScript. Made with [Scittle](https://github.com/babashka/scittle/).
+Minimal presentation slides for ClojureScript. Made with [Scittle](https://github.com/babashka/scittle/).
 
 [features](#features) | [quickstart](#quickstart) | [slide format](#slide-format) | [navigation](#navigation) | [dev](#dev) | [about](#about)
 
