@@ -1,4 +1,4 @@
-Minimalist slides for Scittle ClojureScript.
+Minimal presentations slides for ClojureScript. Made with [Scittle](https://github.com/babashka/scittle/).
 
 # quickstart
 
@@ -40,9 +40,14 @@ Or tap/click the right/left side of the screen to go foward/backward.
 
 # features
 
-- Easy to deploy static HTML.
-- Use hiccup Reagent forms to design slides.
+- Write your slides in Reagent Hiccup.
+- Static web app you can upload to any web host.
 - Tiny hackable codebase.
+- No setup or config, just clone the repo to start.
+
+Here's a [YouTube video about ClojureScript Tiny Slides](https://www.youtube.com/watch?v=gBt_tBoy1kE).
+
+![Screencast of ClojureScript Tiny Slides](https://mccormick.cx/gfx/blogref/joplin/a69bca99b7a1401fbf8ba6a4157fd9ec.gif)
 
 # dev
 
