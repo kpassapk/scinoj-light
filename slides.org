@@ -17,7 +17,7 @@
 - InstantDB quick test (Javascript). Successful.
 - Squint. Promising, still in development.
 - Decided on Shipclojure
-    
+
 ** Stack
 
 Our demo stack
@@ -27,11 +27,14 @@ Our demo stack
 - instantdb: database
 - charting libaries
   - Echarts -> Highcharts -> Recharts
-  
+
 ** Workflow
 - Figuring out how to minimize blockers
-  - e.g. Adham was figuring out how to popul
-  
+  - e.g. Adham was figuring out how to populate the instantdb tables while Ovi
+    was working on visualizing them with a provided shape
+  - we agreed on how things should look-like (spec) which enabled front and back
+    to work async
+
 ** Workflow, continued
 - Create charts in Clay
 - Screenshot them and put them in draw.io
@@ -42,12 +45,13 @@ Our demo stack
 ** Charting libraries
 - Echarts didn't work
 - Highcharts worked, but was hard to integrate with React components
-- 
+- Recharts worked as it was the /easiest/ to move from JS to CLJS
 
 ** Takeaways
 - The project was a success!
 - Demo was actually fairly production ready
 
 ** Thoughts on improving this workflow
-- Tablecloth for Clojurescript?
-- Could take 
+- Tablecloth for ClojureScript, what is required to get there?
+- If that's not possible, how to /bridge/ the two to make it as seamless as
+  possible to develop data in .clj and have it read by a .cljs ns?
